@@ -1,7 +1,6 @@
 import tkinter as tk
 import random
 
-# Настройки игры
 WIDTH = 600
 HEIGHT = 400
 SPACE_SIZE = 20
@@ -9,7 +8,7 @@ BODY_PARTS = 3
 SNAKE_COLOR = "#00FF00"
 FOOD_COLOR = "#FF0000"
 BACKGROUND_COLOR = "#000000"
-SPEED = 100  # Чем меньше число, тем быстрее игра
+SPEED = 100  
 
 class SnakeGame:
     def __init__(self):
@@ -28,7 +27,6 @@ class SnakeGame:
 
         self.window.update()
 
-        # Центрирование окна на экране
         window_width = self.window.winfo_width()
         window_height = self.window.winfo_height()
         screen_width = self.window.winfo_screenwidth()
@@ -38,7 +36,6 @@ class SnakeGame:
         y = int((screen_height/2) - (window_height/2))
         self.window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-        # Привязка клавиш управления
         self.window.bind('<Left>', lambda event: self.change_direction('left'))
         self.window.bind('<Right>', lambda event: self.change_direction('right'))
         self.window.bind('<Up>', lambda event: self.change_direction('up'))
@@ -47,7 +44,6 @@ class SnakeGame:
         self.snake_coordinates = []
         self.squares = []
 
-        # Создание змейки
         for i in range(0, BODY_PARTS):
             self.snake_coordinates.append([0, 0])
 
@@ -55,11 +51,9 @@ class SnakeGame:
             square = self.canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag="snake")
             self.squares.append(square)
 
-        # Создание еды
         self.food_coordinates = [0, 0]
         self.create_food()
 
-        # Старт игры
         self.next_turn()
         self.window.mainloop()
 
@@ -85,7 +79,6 @@ class SnakeGame:
         square = self.canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
         self.squares.insert(0, square)
 
-        # Проверка, съела ли змейка еду
         if x == self.food_coordinates[0] and y == self.food_coordinates[1]:
             self.score += 1
             self.label.config(text="Счёт: {}".format(self.score))
@@ -96,7 +89,6 @@ class SnakeGame:
             self.canvas.delete(self.squares[-1])
             del self.squares[-1]
 
-        # Проверка столкновений
         if self.check_collisions():
             self.game_over()
         else:
@@ -115,11 +107,9 @@ class SnakeGame:
     def check_collisions(self):
         x, y = self.snake_coordinates[0]
 
-        # Столкновение со стенами
         if x < 0 or x >= WIDTH or y < 0 or y >= HEIGHT:
             return True
 
-        # Столкновение со своим хвостом
         for body_part in self.snake_coordinates[1:]:
             if x == body_part[0] and y == body_part[1]:
                 return True
