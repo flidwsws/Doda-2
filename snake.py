@@ -2,7 +2,6 @@ import pygame
 import random
 import sys
 
-# Инициализация Pygame
 pygame.init()
 pygame.font.init()
 
