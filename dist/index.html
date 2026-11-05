@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10140f"><meta name="description" content="Dodabonk — RPG на выживание. Сокрушай орды, собирай опыт и создай безумную сборку прямо в браузере.">
+  <title>DODABONK — ещё один забег</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+ <aside class="sidebar">
+  <a class="brand" href="./" aria-label="Dodabonk — главная"><span class="brand-mark">d<span>✦</span></span><span>DODA<br>BONK<span class="brand-dot">.</span></span></a>
+  <div class="side-caption">ТВОЯ СЛЕДУЮЩАЯ ОДЕРЖИМОСТЬ</div>
+  <nav aria-label="Главное меню">
+   <button class="nav-item active" data-panel="play"><span>◈</span> Играть <i>01</i></button>
+   <button class="nav-item" data-panel="arsenal"><span>⚒</span> Арсенал <i>02</i></button>
+   <button class="nav-item" data-panel="records"><span>▥</span> Хроника <i>03</i></button>
+  </nav>
+  <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки <span>↗</span></button><div class="version"><span class="live-dot"></span> В БРАУЗЕРЕ · V1.0</div></div>
+ </aside>
+ <main>
+  <header><div class="breadcrumb">ИГРЫ <span>/</span> <b>DODABONK</b></div><div class="header-right"><span class="solo"><span class="live-dot"></span> ОДИНОЧНЫЙ РЕЖИМ</span><button class="icon-button" id="sound" title="Включить звук" aria-label="Включить звук">♫</button><button class="icon-button" id="help" title="Как играть" aria-label="Как играть">?</button></div></header>
+  <section class="page-heading"><div><div class="eyebrow"><span></span> ROGUELITE SURVIVAL</div><h1>Меньше думай.<br class="mobile-break"> Больше <em>бонкай.</em></h1><p>Одна арена. Сотни монстров. Твоя лучшая сборка.</p></div><span class="chapter">ГЛАВА 01 <b>ЗАБЫТЫЙ ЛЕС</b><span>↘</span></span></section>
+  <div class="game-layout">
+   <section class="arena-shell" aria-label="Игровая арена">
+    <div class="arena-top"><div><span class="live-dot"></span><b>ЗАБЫТЫЙ ЛЕС</b><span class="difficulty">НОРМАЛЬНО</span></div><div class="arena-actions"><button id="pause" class="icon-button" title="Пауза" aria-label="Пауза">Ⅱ</button><button id="fullscreen" class="icon-button" title="Полный экран" aria-label="Полный экран">⛶</button></div></div>
+    <div class="game-viewport" id="viewport"><canvas id="game" aria-label="Игра Dodabonk. Двигайтесь клавишами WASD или стрелками, пробел — рывок." tabindex="0"></canvas>
+     <div class="game-hud" id="hud"><div class="health-panel"><span class="avatar">◈</span><div><div class="health-label"><b id="heroLabel">ДОДИК</b><span id="hpText">100 / 100</span></div><div class="bar hp"><span id="hpFill"></span></div></div></div><div class="timer" id="timer">00:00</div><div class="kill-counter">☠ <b id="kills">0</b></div></div>
+     <div class="boss-hud hidden" id="bossHud"><span>ХРАНИТЕЛЬ ЛЕСА</span><div class="bar"><span id="bossFill"></span></div></div>
+     <div class="zone-label" id="zoneLabel"><span>⟡</span> ВЫЖИВИ. ПРОКАЧАЙСЯ. ПОВТОРИ.</div>
+     <div class="screen-overlay" id="startScreen"><div class="start-content"><div class="tag">ПЯТЬ МИНУТ ДО ЛЕГЕНДЫ</div><h2>DODA<span>BONK</span><i>✦</i></h2><p>Лес уже знает, что ты здесь.<br>Посмотрим, кто кого.</p><button class="primary-button" id="start">НАЧАТЬ ЗАБЕГ <span>↗</span></button><div class="start-note">БЕЗ СКАЧИВАНИЯ. СРАЗУ В ГУЩУ СОБЫТИЙ.</div></div></div>
+     <div class="screen-overlay hidden" id="pauseScreen"><div class="dialog compact"><div class="eyebrow">ПЕРЕДЫШКА</div><h2>Лес подождёт.</h2><p>Твой забег на паузе.</p><button class="primary-button" id="resume">ПРОДОЛЖИТЬ <span>→</span></button><button class="text-button" id="quit">Завершить забег</button></div></div>
+     <div class="screen-overlay hidden" id="upgradeScreen"><div class="upgrade-dialog"><div class="eyebrow">СТАНОВИШЬСЯ ОПАСНЕЕ</div><h2>Новый уровень<span id="newLevel">02</span></h2><p>Выбери улучшение. Пусть монстры пожалеют.</p><div id="upgradeCards"></div></div></div>
+     <div class="screen-overlay hidden" id="endScreen"><div class="dialog compact"><div class="eyebrow" id="endTag">ЭТО БЫЛО СЛАВНО</div><h2 id="endTitle">Ещё один бонк?</h2><p id="endDescription">Лес победил. Пока что.</p><div class="result-grid"><div><b id="endTime">00:00</b><span>ВЫЖИВАНИЕ</span></div><div><b id="endKills">0</b><span>ПОБЕЖДЕНО</span></div><div><b id="endLevel">1</b><span>УРОВЕНЬ</span></div></div><button class="primary-button" id="restart">ЕЩЁ ОДИН ЗАБЕГ <span>↗</span></button><button class="text-button" id="backHome">На главную</button></div></div>
+     <div class="touch-controls" id="touchControls"><div id="joystick"><span></span></div><button id="touchDash" aria-label="Рывок">↯</button></div>
+     <div class="dash-indicator" id="dashIndicator"><span>↯</span> РЫВОК <kbd>SPACE</kbd></div>
+    </div>
+    <div class="xp-row"><span id="levelLabel">УР. 01</span><div class="bar xp"><span id="xpFill"></span></div><span id="xpText">0 / 5 XP</span></div>
+    <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>Движение</span></span><span><kbd>SPACE</kbd> <span>Рывок</span></span><span><kbd>ESC</kbd> <span>Пауза</span></span><span class="auto-label"><i></i> Атака автоматически</span></div>
+   </section>
+   <aside class="run-sidebar"><section class="hero-card"><div class="section-label">ТВОЙ ГЕРОЙ <span>01 / 03</span></div><div class="hero-select"><button id="prevHero" aria-label="Предыдущий герой">‹</button><div class="hero-portrait"><svg viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="119" rx="42" ry="10" fill="#10150e"/><path d="M43 111L50 66H91L100 111Z" fill="#d18a46"/><path d="M43 64L50 34L73 22L96 36L102 66L86 83H56Z" fill="#efad5e"/><path d="M51 51L62 41L86 43L94 58L87 73H59Z" fill="#382b22"/><path d="M62 56H69V62H62ZM80 56H87V62H80Z" fill="#d5f782"/><path d="M59 82L70 96L82 81L88 110H52Z" fill="#805e38"/><path d="M36 96L19 56L26 52L43 91" fill="#805b38"/><path d="M15 31L37 23L47 51L23 60Z" fill="#a4ab9a"/><path d="M15 31L37 23L39 32L19 39Z" fill="#d0d8bd"/><path d="M51 111H66V124H47ZM78 111H92L97 124H78Z" fill="#403d2c"/></svg></div><button id="nextHero" aria-label="Следующий герой">›</button></div><h3 id="heroName">Додик</h3><p id="heroDesc">Большая дубина. Большие планы.</p><div class="hero-traits" id="heroTraits"><span>⚒ ВОИН</span><span>+20% УРОН</span></div></section>
+    <section class="build-card"><div class="section-label">ТВОЯ СБОРКА <span id="buildCount">1 / 6</span></div><div class="item-row"><span class="item-icon">⚒</span><div><b>Верная дубина</b><small id="weaponLevel">УРОВЕНЬ 1</small></div><span class="item-stars" id="weaponStars">★<i>★★★★</i></span></div><div class="build-slots" id="buildSlots"><span>＋</span><span>＋</span><span>＋</span><span>＋</span><span>＋</span></div><p>Собирай опыт, открывай улучшения.<br>Сломанные сборки приветствуются.</p></section>
+    <section class="goal-card"><div class="goal-icon">✳</div><div><b>Пять минут славы</b><p>Доживи до 05:00 и победи<br>хранителей леса.</p></div><span>↗</span></section>
+   </aside>
+  </div>
+  <footer><span>УМЕРЕТЬ ЛЕГКО. ОСТАНОВИТЬСЯ — СЛОЖНЕЕ.</span><span>СДЕЛАНО ДЛЯ «ЕЩЁ ОДНОГО ЗАБЕГА» <span class="footer-star">✦</span></span></footer>
+ </main>
+</div>
+<dialog id="infoDialog"><div class="modal-head"><span class="eyebrow" id="modalEyebrow">DODABONK</span><button id="closeDialog" class="icon-button" aria-label="Закрыть">×</button></div><div id="modalContent"></div></dialog>
+<script src="game.js"></script>
+</body></html>
