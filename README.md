@@ -2,6 +2,12 @@
 
 Браузерная RPG на выживание, вдохновлённая жанром roguelite survivors. Собственная графика Canvas и механики без игровых зависимостей.
 
+## Играть онлайн
+
+**[Открыть Dodabonk](https://dodabonk.aglowchalk.chatgpt.site)**
+
+Игра доступна всем по ссылке. Публикация размещена на Sites.
+
 ## Запуск
 
 Откройте `dist/index.html` в браузере или запустите статический HTTP-сервер из `dist/`.
@@ -24,5 +30,3 @@
 - `dist/style.css` — адаптивные стили.
 - `dist/game.js` — игра и отрисовка.
 - `.openai/hosting.json` — конфигурация Sites.
-
-Приватная демо-версия опубликована через Sites: https://dodabonk.aglowchalk.chatgpt.site. Для доступа требуется вход владельца через ChatGPT.
