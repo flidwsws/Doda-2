@@ -30,4 +30,4 @@
 - `dist/style.css` — адаптивные стили.
 - `dist/game.js` — игра и отрисовка.
 - `.openai/hosting.json` — конфигурация Sites.
-- эщкер
+- эщкерfsdf
