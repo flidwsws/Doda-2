@@ -1,10 +1,10 @@
-# DODABONK
+# BONKAi
 
 Браузерная RPG на выживание, вдохновлённая жанром roguelite survivors. Собственная графика Canvas и механики без игровых зависимостей.
 
 ## Играть онлайн
 
-**[Открыть Dodabonk](https://dodabonk.aglowchalk.chatgpt.site)**
+**[Открыть BONKAi](https://dodabonk.aglowchalk.chatgpt.site)**
 
 Игра доступна всем по ссылке. Публикация размещена на Sites.
 

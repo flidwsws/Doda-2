@@ -2,13 +2,13 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#10140f"><meta name="description" content="Dodabonk — RPG на выживание. Сокрушай орды, собирай опыт и создай безумную сборку прямо в браузере.">
-  <title>DODABONK — ещё один забег</title><link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#10140f"><meta name="description" content="BONKAi — RPG на выживание. Сокрушай орды, собирай опыт и создай безумную сборку прямо в браузере.">
+  <title>BONKAi — ещё один забег</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
  <aside class="sidebar">
-  <a class="brand" href="./" aria-label="Dodabonk — главная"><span class="brand-mark">d<span>✦</span></span><span>DODA<br>BONK<span class="brand-dot">.</span></span></a>
+  <a class="brand" href="./" aria-label="BONKAi — главная"><span class="brand-mark">b<span>✦</span></span><span>BONK<br>Ai<span class="brand-dot">.</span></span></a>
   <div class="side-caption">ТВОЯ СЛЕДУЮЩАЯ ОДЕРЖИМОСТЬ</div>
   <nav aria-label="Главное меню">
    <button class="nav-item active" data-panel="play"><span>◈</span> Играть <i>01</i></button>
@@ -18,16 +18,16 @@
   <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки <span>↗</span></button><div class="version"><span class="live-dot"></span> В БРАУЗЕРЕ · V1.0</div></div>
  </aside>
  <main>
-  <header><div class="breadcrumb">ИГРЫ <span>/</span> <b>DODABONK</b></div><div class="header-right"><span class="solo"><span class="live-dot"></span> ОДИНОЧНЫЙ РЕЖИМ</span><button class="icon-button" id="sound" title="Включить звук" aria-label="Включить звук">♫</button><button class="icon-button" id="help" title="Как играть" aria-label="Как играть">?</button></div></header>
+  <header><div class="breadcrumb">ИГРЫ <span>/</span> <b>BONKAi</b></div><div class="header-right"><span class="solo"><span class="live-dot"></span> ОДИНОЧНЫЙ РЕЖИМ</span><button class="icon-button" id="sound" title="Включить звук" aria-label="Включить звук">♫</button><button class="icon-button" id="help" title="Как играть" aria-label="Как играть">?</button></div></header>
   <section class="page-heading"><div><div class="eyebrow"><span></span> ROGUELITE SURVIVAL</div><h1>Меньше думай.<br class="mobile-break"> Больше <em>бонкай.</em></h1><p>Одна арена. Сотни монстров. Твоя лучшая сборка.</p></div><span class="chapter">ГЛАВА 01 <b>ЗАБЫТЫЙ ЛЕС</b><span>↘</span></span></section>
   <div class="game-layout">
    <section class="arena-shell" aria-label="Игровая арена">
     <div class="arena-top"><div><span class="live-dot"></span><b>ЗАБЫТЫЙ ЛЕС</b><span class="difficulty">НОРМАЛЬНО</span></div><div class="arena-actions"><button id="pause" class="icon-button" title="Пауза" aria-label="Пауза">Ⅱ</button><button id="fullscreen" class="icon-button" title="Полный экран" aria-label="Полный экран">⛶</button></div></div>
-    <div class="game-viewport" id="viewport"><canvas id="game" aria-label="Игра Dodabonk. Двигайтесь клавишами WASD или стрелками, пробел — рывок." tabindex="0"></canvas>
+    <div class="game-viewport" id="viewport"><canvas id="game" aria-label="Игра BONKAi. Двигайтесь клавишами WASD или стрелками, пробел — рывок." tabindex="0"></canvas>
      <div class="game-hud" id="hud"><div class="health-panel"><span class="avatar">◈</span><div><div class="health-label"><b id="heroLabel">ДОДИК</b><span id="hpText">100 / 100</span></div><div class="bar hp"><span id="hpFill"></span></div></div></div><div class="timer" id="timer">00:00</div><div class="kill-counter">☠ <b id="kills">0</b></div></div>
      <div class="boss-hud hidden" id="bossHud"><span>ХРАНИТЕЛЬ ЛЕСА</span><div class="bar"><span id="bossFill"></span></div></div>
      <div class="zone-label" id="zoneLabel"><span>⟡</span> ВЫЖИВИ. ПРОКАЧАЙСЯ. ПОВТОРИ.</div>
-     <div class="screen-overlay" id="startScreen"><div class="start-content"><div class="tag">ПЯТЬ МИНУТ ДО ЛЕГЕНДЫ</div><h2>DODA<span>BONK</span><i>✦</i></h2><p>Лес уже знает, что ты здесь.<br>Посмотрим, кто кого.</p><button class="primary-button" id="start">НАЧАТЬ ЗАБЕГ <span>↗</span></button><div class="start-note">БЕЗ СКАЧИВАНИЯ. СРАЗУ В ГУЩУ СОБЫТИЙ.</div></div></div>
+     <div class="screen-overlay" id="startScreen"><div class="start-content"><div class="tag">ПЯТЬ МИНУТ ДО ЛЕГЕНДЫ</div><h2>BONK<span>Ai</span><i>✦</i></h2><p>Лес уже знает, что ты здесь.<br>Посмотрим, кто кого.</p><button class="primary-button" id="start">НАЧАТЬ ЗАБЕГ <span>↗</span></button><div class="start-note">БЕЗ СКАЧИВАНИЯ. СРАЗУ В ГУЩУ СОБЫТИЙ.</div></div></div>
      <div class="screen-overlay hidden" id="pauseScreen"><div class="dialog compact"><div class="eyebrow">ПЕРЕДЫШКА</div><h2>Лес подождёт.</h2><p>Твой забег на паузе.</p><button class="primary-button" id="resume">ПРОДОЛЖИТЬ <span>→</span></button><button class="text-button" id="quit">Завершить забег</button></div></div>
      <div class="screen-overlay hidden" id="upgradeScreen"><div class="upgrade-dialog"><div class="eyebrow">СТАНОВИШЬСЯ ОПАСНЕЕ</div><h2>Новый уровень<span id="newLevel">02</span></h2><p>Выбери улучшение. Пусть монстры пожалеют.</p><div id="upgradeCards"></div></div></div>
      <div class="screen-overlay hidden" id="endScreen"><div class="dialog compact"><div class="eyebrow" id="endTag">ЭТО БЫЛО СЛАВНО</div><h2 id="endTitle">Ещё один бонк?</h2><p id="endDescription">Лес победил. Пока что.</p><div class="result-grid"><div><b id="endTime">00:00</b><span>ВЫЖИВАНИЕ</span></div><div><b id="endKills">0</b><span>ПОБЕЖДЕНО</span></div><div><b id="endLevel">1</b><span>УРОВЕНЬ</span></div></div><button class="primary-button" id="restart">ЕЩЁ ОДИН ЗАБЕГ <span>↗</span></button><button class="text-button" id="backHome">На главную</button></div></div>
@@ -45,6 +45,6 @@
   <footer><span>УМЕРЕТЬ ЛЕГКО. ОСТАНОВИТЬСЯ — СЛОЖНЕЕ.</span><span>СДЕЛАНО ДЛЯ «ЕЩЁ ОДНОГО ЗАБЕГА» <span class="footer-star">✦</span></span></footer>
  </main>
 </div>
-<dialog id="infoDialog"><div class="modal-head"><span class="eyebrow" id="modalEyebrow">DODABONK</span><button id="closeDialog" class="icon-button" aria-label="Закрыть">×</button></div><div id="modalContent"></div></dialog>
+<dialog id="infoDialog"><div class="modal-head"><span class="eyebrow" id="modalEyebrow">BONKAi</span><button id="closeDialog" class="icon-button" aria-label="Закрыть">×</button></div><div id="modalContent"></div></dialog>
 <script src="game.js"></script>
 </body></html>
