@@ -186,8 +186,8 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(3px)}
     <div class="xp-row"><span id="levelLabel">УР. 01</span><div class="bar xp"><span id="xpFill"></span></div><span id="xpText">0 / 5 XP</span></div>
     <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>Движение</span></span><span><kbd>SPACE</kbd> <span>Рывок</span></span><span><kbd>ESC</kbd> <span>Пауза</span></span><span><kbd>E</kbd> <span>Портал</span></span><span class="auto-label"><i></i> Атака автоматически</span></div>
    </section>
-   <aside class="run-sidebar"><section class="hero-card"><div class="section-label">ТВОЙ ГЕРОЙ <span>01 / 03</span></div><div class="hero-select"><button id="prevHero" aria-label="Предыдущий герой">‹</button><div class="hero-portrait"><canvas id="heroPortrait" width="96" height="112" aria-hidden="true"></canvas></div><button id="nextHero" aria-label="Следующий герой">›</button></div><h3 id="heroName">Грим</h3><p id="heroDesc">Сталь, пепел и верная дубина.</p><div class="hero-traits" id="heroTraits"><span>⚒ ВОИН</span><span>+20% УРОН</span></div></section>
-    <section class="build-card"><div class="section-label">ТВОЯ СБОРКА <span id="buildCount">1 / 6</span></div><div class="item-row"><span class="item-icon">⚒</span><div><b>Верная дубина</b><small id="weaponLevel">УРОВЕНЬ 1</small></div><span class="item-stars" id="weaponStars">★<i>★★★★</i></span></div><div class="build-slots" id="buildSlots"><span>＋</span><span>＋</span><span>＋</span><span>＋</span><span>＋</span></div><p>Собирай опыт, открывай улучшения.<br>Сломанные сборки приветствуются.</p></section>
+   <aside class="run-sidebar"><section class="hero-card"><div class="section-label">ТВОЙ 3D-ГЕРОЙ <span>01 / 03</span></div><div class="hero-select"><button id="prevHero" aria-label="Предыдущий герой">‹</button><div class="hero-portrait"><canvas id="heroPortrait" width="192" height="224" role="img" aria-label="Объёмная 3D-модель выбранного героя"></canvas></div><button id="nextHero" aria-label="Следующий герой">›</button></div><h3 id="heroName">Грим</h3><p id="heroDesc">Сталь, пепел и пепельный клинок.</p><div class="hero-traits" id="heroTraits"><span>⚒ ВОИН</span><span>+20% УРОН</span></div></section>
+    <section class="build-card"><div class="section-label">ТВОЯ СБОРКА <span id="buildCount">1 / 6</span></div><div class="item-row"><span class="item-icon">⚔</span><div><b>Пепельный клинок</b><small id="weaponLevel">УРОВЕНЬ 1</small></div><span class="item-stars" id="weaponStars">★<i>★★★★</i></span></div><div class="build-slots" id="buildSlots"><span>＋</span><span>＋</span><span>＋</span><span>＋</span><span>＋</span></div><p>Собирай опыт, открывай улучшения.<br>Сломанные сборки приветствуются.</p></section>
     <section class="goal-card"><div class="goal-icon">✳</div><div><b id="goalTitle">1 / 3 · Расколотые земли</b><p id="goalText">На 05:00 появится Велес, Пепельный страж. Победи его и войди в портал.</p></div><span>↗</span></section>
    </aside>
   </div>
@@ -202,7 +202,7 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(3px)}
  const canvas = $('game'), ctx = canvas.getContext('2d'), viewport = $('viewport');
  const TAU = Math.PI * 2, DURATION = 300, WORLD = 4950;
  const heroes = [
-  {name:'Грим',desc:'Сталь, пепел и верная дубина.',role:'⚒ ВОИН',trait:'+20% УРОН',hp:100,speed:175,damage:28,color:'#adadad',filter:'none'},
+  {name:'Грим',desc:'Сталь, пепел и пепельный клинок.',role:'⚒ ВОИН',trait:'+20% УРОН',hp:100,speed:175,damage:28,color:'#adadad',filter:'none'},
   {name:'Морвен',desc:'Голос могил. Корни мёртвого леса.',role:'✳ ДРУИД',trait:'+40% ЗДОРОВЬЕ',hp:140,speed:165,damage:23,color:'#a9a9a9',filter:'none'},
   {name:'Нокс',desc:'Тихий шаг. Лезвие из тени.',role:'↯ РАЗБОЙНИК',trait:'+25% СКОРОСТЬ',hp:80,speed:219,damage:23,color:'#a1a1a1',filter:'none'}
  ];
@@ -368,11 +368,120 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(3px)}
   const glow=ctx.createRadialGradient(p.x,p.y-46,3,p.x,p.y-46,55);glow.addColorStop(0,'#ffffff20');glow.addColorStop(1,'#ffffff00');ctx.fillStyle=glow;ctx.fillRect(p.x-55,p.y-101,110,110);
   px(p.x-8,p.y-44,16,10,'#8a8a8a');px(p.x-6,p.y-50,12,14,'#c5c5c5');px(p.x-4,p.y-58-phase*2,8,20,'#eeeeee');px(p.x+4,p.y-54+phase*2,4,10,'#aaaaaa');px(p.x-2,p.y-46,4,10,'#ffffff');
  }
- function drawPortrait(){const pc=$('heroPortrait');if(!pc)return;const c=pc.getContext('2d');c.clearRect(0,0,pc.width,pc.height);c.imageSmoothingEnabled=false;sprite(selectedHero===0?'knight':'hood',48,104,3,false,false,selectedHero,c);sprite('mace',14,86,2,false,false,selectedHero,c);}
- function drawHero(h,preview=false){const p=project(h.x,h.y),moving=!preview&&h.moving,bob=moving?(Math.floor(g.time*8)%2)*2:0,hero=g?g.hero:selectedHero;shadow(p.x,p.y,1.1);ctx.save();if(!preview&&h.inv>0&&Math.floor(ambient*12)%2===0)ctx.globalAlpha=.45;
+ // A real articulated 3D mesh, projected orthographically into the pixel world.
+ // Positions, joint rotations, face normals, lighting and depth are evaluated in 3D.
+ // The small mesh is rasterized on Canvas so the offline edition needs no GPU or downloads.
+ const HERO_CAMERA_PITCH=.42;
+ function rotateHeroPoint(p,yaw){const c=Math.cos(yaw),s=Math.sin(yaw);return[p[0]*c+p[2]*s,p[1],p[2]*c-p[0]*s];}
+ function heroJoint(p,pivot,angle){const c=Math.cos(angle),s=Math.sin(angle),y=p[1]-pivot[1],z=p[2]-pivot[2];return[p[0],pivot[1]+y*c-z*s,pivot[2]+y*s+z*c];}
+ function heroNormal(points){const a=points[0],b=points[1],c=points[2],u=b.map((v,i)=>v-a[i]),v=c.map((n,i)=>n-a[i]);const n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]],len=Math.hypot(...n)||1;return n.map(x=>x/len);}
+ function buildHeroMesh(hero,pose={}){
+  const faces=[],walk=pose.walk||0,swing=Math.sin(Math.max(0,Math.min(1,(pose.swing||0)/.22))*Math.PI),stride=pose.moving?Math.sin(walk)*.55:0;
+  const bob=pose.moving?Math.abs(Math.cos(walk))*.035:Math.sin((pose.time||0)*2)*.012;
+  const metal=hero===0?190:hero===1?126:112,cloth=hero===1?58:hero===2?39:47;
+  const add=(points,tone,center,transform,glow=false)=>{
+   const mid=points[0].map((_,i)=>points.reduce((n,p)=>n+p[i],0)/points.length),normal=heroNormal(points);
+   if(normal.reduce((n,v,i)=>n+v*(mid[i]-center[i]),0)<0)points=[...points].reverse();
+   faces.push({points:points.map(p=>{const q=transform?transform(p):p;return[q[0],q[1]+bob,q[2]];}),tone,glow});
+  };
+  const prism=(x,y,z,w,h,d,tone,bevel=.04,top=1,transform=null,glow=false)=>{
+   const b=Math.min(bevel,w*.24,d*.24),ring=[[-w/2+b,-d/2],[w/2-b,-d/2],[w/2,-d/2+b],[w/2,d/2-b],[w/2-b,d/2],[-w/2+b,d/2],[-w/2,d/2-b],[-w/2,-d/2+b]];
+   const lo=ring.map(([a,c])=>[x+a,y-h/2,z+c]),hi=ring.map(([a,c])=>[x+a*top,y+h/2,z+c*top]),center=[x,y,z];
+   add(lo,tone,center,transform,glow);add(hi,tone,center,transform,glow);
+   for(let i=0;i<8;i++){const j=(i+1)%8;add([lo[i],lo[j],hi[j],hi[i]],tone,center,transform,glow);}
+  };
+  // Boots and separate legs articulate around the hip rather than sliding as a sprite.
+  for(const side of [-1,1]){const x=side*.19,pivot=[x,1.04,0],bend=stride*side;
+   const leg=p=>heroJoint(p,pivot,bend);
+   prism(x,.71,0,.27,.53,.29,hero===0?125:69,.035,.9,leg);
+   prism(x,.33,.015,.235,.40,.27,hero===0?158:83,.03,1,leg);
+   prism(x,.11,.09,.28,.21,.48,61,.045,.9,leg);
+   prism(x,.52,.14,.245,.18,.09,metal,.03,.82,leg);
+  }
+  // Split, tapered cloak panels make the back and side views visibly different.
+  const capeSway=(pose.moving?Math.sin(walk)*.07:Math.sin((pose.time||0)*1.7)*.02);
+  for(let i=-1;i<=1;i++)prism(i*.23,.99,-.31+capeSway,.27,hero===2?.96:1.36,.075,cloth+(i+1)*7,.015,.65);
+  prism(0,1.05,0,.64,.27,.42,70,.05,1.04);
+  prism(0,1.46,0,hero===0?.81:.70,.64,.47,metal,.09,1.05);
+  prism(0,1.05,.025,.69,.105,.47,45,.015);
+  prism(0,1.05,.275,.16,.12,.055,216,.01);
+  if(hero===0){
+   prism(0,1.47,.255,.53,.46,.09,209,.065,.86);
+   prism(0,1.48,.31,.07,.32,.025,102,.005);
+   prism(0,1.58,.32,.31,.055,.025,119,.005);
+  }else{
+   prism(0,1.37,.25,.09,.57,.045,hero===1?183:154,.01);
+   prism(-.18,1.55,.26,.28,.08,.04,76,.01);
+   if(hero===1){prism(0,.70,.015,.91,.76,.50,cloth+25,.055,.65);prism(0,.69,.29,.11,.69,.04,146,.01,.8);}
+  }
+  // Shoulder, hand and weapon share the same shoulder transform during a bonk.
+  for(const side of [-1,1]){const pivot=[side*.48,1.69,0],angle=side===1?-swing*1.85+stride*.35:-stride*.55;
+   const arm=p=>heroJoint(p,pivot,angle);
+   prism(side*.54,1.68,0,hero===0?.39:.32,.28,.44,metal+5,.065,.8);
+   prism(side*.55,1.40,0,.23,.38,.28,cloth+35,.035,1,arm);
+   prism(side*.59,1.09,.025,.25,.34,.30,metal-12,.045,.9,arm);
+   prism(side*.60,.88,.065,.23,.22,.25,80,.035,1,arm);
+   if(hero===1)prism(side*.56,1.87,0,.12,.22,.14,187,.025,.15);
+   if(side===1){
+    // The sword is attached to the hand and follows the complete shoulder swing.
+    prism(.67,.99,.13,.115,.39,.13,56,.018,1,arm);
+    prism(.67,.77,.13,.20,.15,.19,170,.035,.8,arm);
+    prism(.67,1.20,.13,.57,.105,.17,189,.025,.85,arm);
+    for(const off of [-1,1])prism(.67+off*.25,1.23,.13,.10,.16,.13,174,.02,.5,arm);
+    prism(.67,1.79,.13,.22,1.08,.075,228,.025,.92,arm);
+    prism(.67,2.41,.13,.20,.18,.07,236,.02,.02,arm);
+    prism(.67,1.79,.174,.035,1.06,.025,153,.006,.7,arm);
+   }else if(hero===2){prism(-.61,.65,.13,.09,.42,.09,196,.015,.08,arm);}
+  }
+  prism(0,1.89,0,.25,.18,.26,83,.035);
+  if(hero===0){
+   prism(0,2.20,0,.66,.57,.58,201,.10,.94);
+   prism(0,2.48,-.02,.095,.25,.56,170,.02,.45);
+   prism(0,2.21,.305,.50,.105,.045,17,.01);
+   prism(-.145,2.22,.333,.12,.033,.016,231,.003,1,null,true);
+   prism(.145,2.22,.333,.12,.033,.016,231,.003,1,null,true);
+   prism(0,2.12,.34,.09,.21,.085,216,.015,.8);
+   prism(0,2.015,.27,.43,.13,.12,149,.035,.9);
+  }else{
+   prism(0,2.20,-.02,.70,.65,.62,cloth+34,.12,.72);
+   prism(0,2.55,-.08,.45,.24,.41,cloth+43,.075,.18);
+   prism(0,2.17,.31,.46,.36,.075,19,.055,.85);
+   prism(-.12,2.23,.358,.105,.035,.025,hero===1?216:246,.004,1,null,true);
+   prism(.12,2.23,.358,.105,.035,.025,hero===1?216:246,.004,1,null,true);
+   prism(0,2.055,.35,.40,.13,.06,hero===1?95:116,.025,.85);
+   if(hero===1)for(const side of [-1,1]){
+    prism(side*.35,2.48,-.02,.105,.54,.13,177,.025,.35);
+    prism(side*.44,2.66,-.015,.24,.085,.11,191,.02,.5);
+   }
+  }
+  return faces;
+ }
+ function projectHeroMesh(mesh,yaw=0){const cp=Math.cos(HERO_CAMERA_PITCH),sp=Math.sin(HERO_CAMERA_PITCH);
+  return mesh.map(face=>{const points=face.points.map(p=>rotateHeroPoint(p,yaw)),normal=heroNormal(points),facing=normal[1]*sp+normal[2]*cp;
+   if(facing<=.001)return null;
+   const light=Math.max(0,normal[0]*-.45+normal[1]*.78+normal[2]*.43),rim=Math.pow(1-facing,3)*.15;
+   const tone=Math.round(Math.min(248,Math.max(14,face.glow?face.tone:face.tone*(.40+light*.67+rim))));
+   return{points:points.map(p=>[p[0],-p[1]*cp+p[2]*sp]),depth:points.reduce((n,p)=>n+p[2]*cp+p[1]*sp,0)/points.length,tone};
+  }).filter(Boolean).sort((a,b)=>a.depth-b.depth);
+ }
+ function drawHeroModel(target,x,y,scale,hero,pose={}){const faces=projectHeroMesh(buildHeroMesh(hero,pose),pose.yaw??-.45);
+  target.save();target.translate(x,y);target.scale(scale,scale);target.lineJoin='round';
+  for(const face of faces){target.beginPath();face.points.forEach((p,i)=>i?target.lineTo(p[0],p[1]):target.moveTo(p[0],p[1]));target.closePath();const v=face.tone;target.fillStyle=`rgb(${v},${v},${v})`;target.fill();target.strokeStyle=`rgb(${Math.max(8,v-29)},${Math.max(8,v-29)},${Math.max(8,v-29)})`;target.lineWidth=.018;target.stroke();}
+  target.restore();
+ }
+ function heroFacing(dx,dy){return Math.atan2((dx-dy)*.78,(dx+dy)*.46/Math.sin(HERO_CAMERA_PITCH));}
+ function animateHero(h,dt){h.animTime+=dt;if(h.moving)h.walk+=dt*h.speed*.065;
+  const target=h.swing>0?h.aimYaw:h.moving||h.dashing>0?heroFacing(h.dx,h.dy):h.yaw;
+  h.yaw+=Math.atan2(Math.sin(target-h.yaw),Math.cos(target-h.yaw))*Math.min(1,dt*18);
+ }
+ function drawPortrait(){const pc=$('heroPortrait');if(!pc)return;pc.setAttribute('aria-label',`Объёмная 3D-модель героя ${heroes[selectedHero].name}`);const c=pc.getContext('2d');c.clearRect(0,0,pc.width,pc.height);c.imageSmoothingEnabled=false;
+  c.fillStyle='#08080888';c.beginPath();c.ellipse(pc.width/2,pc.height-9,pc.width*.28,5,0,0,TAU);c.fill();
+  drawHeroModel(c,pc.width/2-3,pc.height-12,pc.height/3.1,selectedHero,{yaw:-.48});
+ }
+ function drawHero(h,preview=false){const p=project(h.x,h.y),hero=g?g.hero:selectedHero;shadow(p.x,p.y,1.2);ctx.save();
+  if(!preview&&h.inv>0&&Math.floor(ambient*12)%2===0)ctx.globalAlpha=.45;
   if(!preview&&h.dashing>0){px(p.x-20,p.y-12,40,6,'#ffffff33');px(p.x-28,p.y-6,36,4,'#ffffff55');}
-  sprite(hero===0?'knight':'hood',p.x,p.y+bob,2,false,false,hero);
-  ctx.save();ctx.translate(Math.round((p.x-23)/2)*2,Math.round((p.y-18+bob)/2)*2);const swing=!preview&&h.swing>0?Math.floor(Math.sin(h.swing/.22*Math.PI)*4)*.4:0;ctx.rotate(-.3+swing);sprite('mace',0,0,2);ctx.restore();ctx.restore();
+  drawHeroModel(ctx,p.x,p.y,29,hero,preview?{yaw:-.45,time:ambient}:{yaw:h.yaw,walk:h.walk,moving:h.moving,swing:h.swing,time:h.animTime});ctx.restore();
  }
  function drawEnemy(e){const p=project(e.x,e.y),bob=(Math.floor(ambient*5+e.seed)%2)*2;shadow(p.x,p.y,e.boss?1.8:.8);const name=e.boss?'lord':e.kind===1?(Math.floor(ambient*9+e.seed)%2?'bat':'batFold'):e.kind===2?'skull':'wraith';sprite(name,p.x,p.y+bob-(e.kind===1?16:0),e.finalBoss?3.6:e.boss?3:2,false,e.flash>0,e.boss?(g?.location||0):0);
   if(e.finalBoss){const pulse=ambient*1.5;for(let i=0;i<8;i++){const a=i/8*TAU+pulse;px(p.x+Math.cos(a)*48,p.y-55+Math.sin(a)*16,4,4,'#dedede');}if(g.location===1){sprite('skull',p.x-43,p.y-25,1.2);sprite('skull',p.x+43,p.y-25,1.2);}if(g.location===2){px(p.x-36,p.y-101,6,52,'#9a9a9a');px(p.x+30,p.y-101,6,52,'#9a9a9a');}}
@@ -426,7 +535,7 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(3px)}
  function burst(x,y,color,count=8){for(let i=0;i<count;i++)effect('particle',x,y,.3+Math.random()*.3,{z:12,vx:(Math.random()-.5)*150,vy:(Math.random()-.5)*150,vz:30+Math.random()*90,color,size:2+Math.random()*3});}
  function updateHero(){const h=heroes[selectedHero];$('heroName').textContent=h.name;$('heroDesc').textContent=h.desc;$('heroTraits').innerHTML=`<span>${h.role}</span><span>${h.trait}</span>`;drawPortrait();document.querySelector('.hero-card .section-label span').textContent=`0${selectedHero+1} / 03`;$('heroLabel').textContent=heroes[g?g.hero:selectedHero].name.toUpperCase();if(!g){$('hpText').textContent=`${h.hp} / ${h.hp}`;render();}}
  function changeHero(delta){if(state==='playing'||state==='paused'||state==='upgrade')return;selectedHero=(selectedHero+delta+heroes.length)%heroes.length;updateHero();}
- function start(){const hero=heroes[selectedHero];worldChunks.clear();miniMapAtlas=null;keys.clear();move={x:0,y:0};g={hero:selectedHero,location:0,stageTime:0,finalBossSpawned:false,locationCleared:false,portal:null,clearedLocations:0,region:0,visited:new Set([0]),time:0,kills:0,level:1,xp:0,nextXp:5,enemies:[],gems:[],effects:[],bolts:[],spawnTimer:.8,bossStage:0,bossesKilled:0,shake:0,upgrades:{},player:{x:0,y:0,hp:hero.hp,maxHp:hero.hp,speed:hero.speed,damage:hero.damage,range:110,cooldown:.8,attack:0,inv:1,dash:0,dashing:0,dx:1,dy:0,crit:.08,magnet:100,regen:0,bolt:0,boltTimer:1,swing:0,moving:false}};state='playing';$('heroLabel').textContent=hero.name.toUpperCase();camera={x:0,y:0};document.querySelectorAll('.screen-overlay').forEach(el=>el.classList.add('hidden'));viewport.classList.add('playing');$('hud').classList.remove('hidden');$('pause').textContent='Ⅱ';$('bossHud').classList.add('hidden');$('zoneLabel').classList.add('hidden');syncLocationUI();updateBuild();updateHud();sound(390,.15);canvas.focus({preventScroll:true});}
+ function start(){const hero=heroes[selectedHero];worldChunks.clear();miniMapAtlas=null;keys.clear();move={x:0,y:0};g={hero:selectedHero,location:0,stageTime:0,finalBossSpawned:false,locationCleared:false,portal:null,clearedLocations:0,region:0,visited:new Set([0]),time:0,kills:0,level:1,xp:0,nextXp:5,enemies:[],gems:[],effects:[],bolts:[],spawnTimer:.8,bossStage:0,bossesKilled:0,shake:0,upgrades:{},player:{x:0,y:0,hp:hero.hp,maxHp:hero.hp,speed:hero.speed,damage:hero.damage,range:110,cooldown:.8,attack:0,inv:1,dash:0,dashing:0,dx:1,dy:0,crit:.08,magnet:100,regen:0,bolt:0,boltTimer:1,swing:0,moving:false,yaw:-.45,aimYaw:-.45,walk:0,animTime:0}};state='playing';$('heroLabel').textContent=hero.name.toUpperCase();camera={x:0,y:0};document.querySelectorAll('.screen-overlay').forEach(el=>el.classList.add('hidden'));viewport.classList.add('playing');$('hud').classList.remove('hidden');$('pause').textContent='Ⅱ';$('bossHud').classList.add('hidden');$('zoneLabel').classList.add('hidden');syncLocationUI();updateBuild();updateHud();sound(390,.15);canvas.focus({preventScroll:true});}
  function setPause(shouldPause){if(shouldPause&&state==='playing'){state='paused';$('pauseScreen').classList.remove('hidden');keys.clear();move={x:0,y:0};$('pause').textContent='▶';}else if(!shouldPause&&state==='paused'){state='playing';$('pauseScreen').classList.add('hidden');$('pause').textContent='Ⅱ';canvas.focus({preventScroll:true});}updateHud();}
  function dash(){if(state!=='playing'||g.player.dash>0)return;const h=g.player;h.dashing=.18;h.dash=3;h.inv=Math.max(h.inv,.3);if(!h.moving){h.dx=Math.SQRT1_2;h.dy=-Math.SQRT1_2;}effect('ring',h.x,h.y,.4,{color:'#e8e8e8',radius:75});sound(150,.12,'sawtooth',.025);}
  function spawn(boss=false,finalBoss=false){const point=findSpawnPoint(),threat=g.stageTime/60+g.location*2;const kind=boss?2:Math.random()<.28?1:Math.random()<.27?2:0;
@@ -450,7 +559,7 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(3px)}
   if(g.portal.exit){finish(true);return true;}
   g.location++;g.stageTime=0;g.region=0;g.visited=new Set([0]);g.bossStage=0;g.finalBossSpawned=false;g.locationCleared=false;g.portal=null;
   g.enemies=[];g.gems=[];g.effects=[];g.bolts=[];g.spawnTimer=1.5;g.shake=0;
-  Object.assign(g.player,{x:0,y:0,hp:g.player.maxHp,inv:2,dash:0,dashing:0,attack:.5,swing:0,moving:false});
+  Object.assign(g.player,{x:0,y:0,hp:g.player.maxHp,inv:2,dash:0,dashing:0,attack:.5,swing:0,moving:false,yaw:-.45,aimYaw:-.45,walk:0});
   keys.clear();move={x:0,y:0};touchOrigin=null;knob.style.transform='';camera={x:0,y:0};worldChunks.clear();miniMapAtlas=null;
   syncLocationUI();updateHud();drawMiniMap();sound(460,.3,'sine',.05);canvas.focus({preventScroll:true});return true;
  }
@@ -473,7 +582,7 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(3px)}
    if(g.stageTime>=DURATION&&!g.finalBossSpawned){g.finalBossSpawned=true;spawn(true,true);}}
   h.attack-=dt;let nearest=null,nearDist=Infinity;
   for(const e of g.enemies){if(e.hp<=0)continue;const dist=Math.hypot(e.x-h.x,e.y-h.y);if(dist<nearDist){nearest=e;nearDist=dist;}const angle=Math.atan2(h.y-e.y,h.x-e.x);if(dist>15){e.x+=Math.cos(angle)*e.speed*dt;e.y+=Math.sin(angle)*e.speed*dt;}e.flash=Math.max(0,e.flash-dt);if(dist<(e.boss?47:25)&&h.inv<=0){h.hp-=e.damage;h.inv=.7;g.shake=7;effect('text',h.x,h.y,.75,{text:`−${e.damage}`,color:'#b7b7b7',z:65,vz:25});burst(h.x,h.y,'#b1b1b1',6);sound(80,.1,'sawtooth',.035);if(h.hp<=0){finish(false);return;}}}
-  if(h.attack<=0&&nearest&&nearDist<h.range){h.attack=h.cooldown;h.swing=.22;const p1=project(h.x,h.y),p2=project(nearest.x,nearest.y);const angle=Math.atan2((p2.y-p1.y)/.6,p2.x-p1.x);effect('slash',h.x,h.y,.23,{angle,color:'#d5d5d5'});for(const e of g.enemies)if(Math.hypot(e.x-h.x,e.y-h.y)<h.range+(e.boss?20:0))damageEnemy(e,h.damage);sound(130,.07,'triangle',.04);g.shake=Math.max(g.shake,2);}
+  if(h.attack<=0&&nearest&&nearDist<h.range){h.attack=h.cooldown;h.swing=.22;h.aimYaw=heroFacing(nearest.x-h.x,nearest.y-h.y);const p1=project(h.x,h.y),p2=project(nearest.x,nearest.y);const angle=Math.atan2((p2.y-p1.y)/.6,p2.x-p1.x);effect('slash',h.x,h.y,.23,{angle,color:'#d5d5d5'});for(const e of g.enemies)if(Math.hypot(e.x-h.x,e.y-h.y)<h.range+(e.boss?20:0))damageEnemy(e,h.damage);sound(130,.07,'triangle',.04);g.shake=Math.max(g.shake,2);}
   if(h.bolt>0){h.boltTimer-=dt;if(h.boltTimer<=0&&nearest){h.boltTimer=Math.max(.25,1.4-h.bolt*.14);const a=Math.atan2(nearest.y-h.y,nearest.x-h.x);g.bolts.push({x:h.x,y:h.y,vx:Math.cos(a)*460,vy:Math.sin(a)*460,life:1.8,damage:14+h.bolt*9});}}
   for(const b of g.bolts){b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;for(const e of g.enemies){if(e.hp>0&&Math.hypot(e.x-b.x,e.y-b.y)<(e.boss?40:23)){damageEnemy(e,b.damage);b.life=0;break;}}}g.bolts=g.bolts.filter(b=>b.life>0);
   for(const gem of g.gems){let dist=Math.hypot(gem.x-h.x,gem.y-h.y);if(dist<h.magnet){const a=Math.atan2(h.y-gem.y,h.x-gem.x);const speed=240+(h.magnet-dist)*3;gem.x+=Math.cos(a)*speed*dt;gem.y+=Math.sin(a)*speed*dt;}if(dist<24){gem.collected=true;if(gem.heal){h.hp=Math.min(h.maxHp,h.hp+gem.value);effect('text',h.x,h.y,.8,{text:`+${gem.value} HP`,color:'#e8e8e8',z:60,vz:20});}else{g.xp+=gem.value;sound(570,.04,'sine',.018);}}}
@@ -481,12 +590,12 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(3px)}
   // Merge distant experience drops to keep long runs smooth without losing XP.
   if(g.gems.length>300){const distant=g.gems.filter(v=>!v.heal&&Math.hypot(v.x-h.x,v.y-h.y)>550);if(distant.length>1){const total=distant.reduce((s,v)=>s+v.value,0);const keep=distant[0];keep.value=total;const remove=new Set(distant.slice(1));g.gems=g.gems.filter(v=>!remove.has(v));}}
   for(const fx of g.effects){fx.life-=dt;if(fx.vx)fx.x+=fx.vx*dt;if(fx.vy)fx.y+=fx.vy*dt;if(fx.vz)fx.z=(fx.z||0)+fx.vz*dt;}g.effects=g.effects.filter(fx=>fx.life>0);
-  $('locationNotice').classList.toggle('hidden',g.stageTime>4||g.locationCleared);
+  animateHero(h,dt);$('locationNotice').classList.toggle('hidden',g.stageTime>4||g.locationCleared);
   if(g.xp>=g.nextXp){g.xp-=g.nextXp;g.level++;g.nextXp=Math.floor(g.nextXp*1.22+3);showUpgrades();}
   if(frameCount%4===0)updateHud();
  }
  const upgrades=[
-  {id:'damage',icon:'⚒',name:'Тяжёлая рука',desc:'+25% к урону дубины. Каждый бонк ощутимее.',apply:h=>h.damage*=1.25},
+  {id:'damage',icon:'⚔',name:'Тяжёлая рука',desc:'+25% к урону клинка. Каждый удар ощутимее.',apply:h=>h.damage*=1.25},
   {id:'speedAttack',icon:'»',name:'Бонк за бонком',desc:'Атаки на 18% быстрее. Ритм решает.',apply:h=>h.cooldown=Math.max(.15,h.cooldown*.82)},
   {id:'range',icon:'◉',name:'Широкий размах',desc:'+22% к радиусу удара. Задень всех.',apply:h=>h.range*=1.22},
   {id:'hp',icon:'♥',name:'Крепкий орешек',desc:'+25 к максимуму здоровья и лечение на 35 HP.',apply:h=>{h.maxHp+=25;h.hp=Math.min(h.maxHp,h.hp+35);}},

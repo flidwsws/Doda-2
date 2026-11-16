@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080808"><meta name="description" content="BONKAi — чёрно-белое пиксельное дарк-фэнтези на выживание. Сокрушай орды, собирай опыт и создай безумную сборку прямо в браузере.">
-  <title>BONKAi — ещё один забег</title><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="theme.css?v=5">
+  <title>BONKAi — ещё один забег</title><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="theme.css?v=7">
 </head>
 <body>
 <div class="app">
@@ -15,7 +15,7 @@
    <button class="nav-item" data-panel="arsenal"><span>⚒</span> Арсенал <i>02</i></button>
    <button class="nav-item" data-panel="records"><span>▥</span> Хроника <i>03</i></button>
   </nav>
-  <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки <span>↗</span></button><div class="version"><span class="live-dot"></span> ЧЁРНО-БЕЛЫЙ МИР · V3.0</div></div>
+  <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки <span>↗</span></button><div class="version"><span class="live-dot"></span> ЧЁРНО-БЕЛЫЙ МИР · V3.2</div></div>
  </aside>
  <main>
   <header><div class="breadcrumb">ИГРЫ <span>/</span> <b>BONKAi</b></div><div class="header-right"><span class="solo"><span class="live-dot"></span> ОДИНОЧНЫЙ РЕЖИМ</span><button class="icon-button" id="sound" title="Включить звук" aria-label="Включить звук">♫</button><button class="icon-button" id="help" title="Как играть" aria-label="Как играть">?</button></div></header>
@@ -46,8 +46,8 @@
     <div class="xp-row"><span id="levelLabel">УР. 01</span><div class="bar xp"><span id="xpFill"></span></div><span id="xpText">0 / 5 XP</span></div>
     <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>Движение</span></span><span><kbd>SPACE</kbd> <span>Рывок</span></span><span><kbd>ESC</kbd> <span>Пауза</span></span><span><kbd>E</kbd> <span>Портал</span></span><span class="auto-label"><i></i> Атака автоматически</span></div>
    </section>
-   <aside class="run-sidebar"><section class="hero-card"><div class="section-label">ТВОЙ ГЕРОЙ <span>01 / 03</span></div><div class="hero-select"><button id="prevHero" aria-label="Предыдущий герой">‹</button><div class="hero-portrait"><canvas id="heroPortrait" width="96" height="112" aria-hidden="true"></canvas></div><button id="nextHero" aria-label="Следующий герой">›</button></div><h3 id="heroName">Грим</h3><p id="heroDesc">Сталь, пепел и верная дубина.</p><div class="hero-traits" id="heroTraits"><span>⚒ ВОИН</span><span>+20% УРОН</span></div></section>
-    <section class="build-card"><div class="section-label">ТВОЯ СБОРКА <span id="buildCount">1 / 6</span></div><div class="item-row"><span class="item-icon">⚒</span><div><b>Верная дубина</b><small id="weaponLevel">УРОВЕНЬ 1</small></div><span class="item-stars" id="weaponStars">★<i>★★★★</i></span></div><div class="build-slots" id="buildSlots"><span>＋</span><span>＋</span><span>＋</span><span>＋</span><span>＋</span></div><p>Собирай опыт, открывай улучшения.<br>Сломанные сборки приветствуются.</p></section>
+   <aside class="run-sidebar"><section class="hero-card"><div class="section-label">ТВОЙ 3D-ГЕРОЙ <span>01 / 03</span></div><div class="hero-select"><button id="prevHero" aria-label="Предыдущий герой">‹</button><div class="hero-portrait"><canvas id="heroPortrait" width="192" height="224" role="img" aria-label="Объёмная 3D-модель выбранного героя"></canvas></div><button id="nextHero" aria-label="Следующий герой">›</button></div><h3 id="heroName">Грим</h3><p id="heroDesc">Сталь, пепел и пепельный клинок.</p><div class="hero-traits" id="heroTraits"><span>⚒ ВОИН</span><span>+20% УРОН</span></div></section>
+    <section class="build-card"><div class="section-label">ТВОЯ СБОРКА <span id="buildCount">1 / 6</span></div><div class="item-row"><span class="item-icon">⚔</span><div><b>Пепельный клинок</b><small id="weaponLevel">УРОВЕНЬ 1</small></div><span class="item-stars" id="weaponStars">★<i>★★★★</i></span></div><div class="build-slots" id="buildSlots"><span>＋</span><span>＋</span><span>＋</span><span>＋</span><span>＋</span></div><p>Собирай опыт, открывай улучшения.<br>Сломанные сборки приветствуются.</p></section>
     <section class="goal-card"><div class="goal-icon">✳</div><div><b id="goalTitle">1 / 3 · Расколотые земли</b><p id="goalText">На 05:00 появится Велес, Пепельный страж. Победи его и войди в портал.</p></div><span>↗</span></section>
    </aside>
   </div>
@@ -55,5 +55,5 @@
  </main>
 </div>
 <dialog id="infoDialog"><div class="modal-head"><span class="eyebrow" id="modalEyebrow">BONKAi</span><button id="closeDialog" class="icon-button" aria-label="Закрыть">×</button></div><div id="modalContent"></div></dialog>
-<script src="game.js?v=5"></script>
+<script src="game.js?v=7"></script>
 </body></html>

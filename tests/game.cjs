@@ -13,9 +13,25 @@ const els=new Map(),get=id=>{if(!els.has(id))els.set(id,new Element());return el
 const storage=new Map([['dodabonk-v1',JSON.stringify({best:120,runs:[{hero:'Додик',time:120},{hero:'Моховик',time:60},{hero:'Искра',time:30}]})]]);
 const sandbox={console,Math,Set,Date,JSON,window:{devicePixelRatio:1,addEventListener:noop},document:{getElementById:get,querySelector:get,querySelectorAll:()=>[],createElement:()=>new Element(),addEventListener:noop},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},ResizeObserver:class{observe(){}},requestAnimationFrame:noop};
 const filename=process.argv[2]||require('node:path').resolve(__dirname,'../dist/game.js');let source=fs.readFileSync(filename,'utf8');
-source=source.replace(/\}\)\(\);\s*$/,`globalThis.test={WORLD,DURATION,LOCATIONS,CHUNK_LIMIT,REGIONS,currentRegions,enterPortal,biomeAt,getChunk,visibleDecor,findSpawnPoint,updateRegion,get worldChunks(){return worldChunks},setCamera:(x,y)=>camera={x,y},start,update,render,dash,setPause,finish,home,damageEnemy,spawn,showUpgrades,updateHud,upgrades,changeHero,formatTime,get state(){return state},get g(){return g},get keys(){return keys},get profile(){return profile},setHero:i=>selectedHero=i};})();`);
+source=source.replace(/\}\)\(\);\s*$/,`globalThis.test={buildHeroMesh,projectHeroMesh,heroFacing,animateHero,WORLD,DURATION,LOCATIONS,CHUNK_LIMIT,REGIONS,currentRegions,enterPortal,biomeAt,getChunk,visibleDecor,findSpawnPoint,updateRegion,get worldChunks(){return worldChunks},setCamera:(x,y)=>camera={x,y},start,update,render,dash,setPause,finish,home,damageEnemy,spawn,showUpgrades,updateHud,upgrades,changeHero,formatTime,get state(){return state},get g(){return g},get keys(){return keys},get profile(){return profile},setHero:i=>selectedHero=i};})();`);
 vm.createContext(sandbox);vm.runInContext(source,sandbox);const game=sandbox.test;
 assert.equal(game.profile.runs.map(r=>r.hero).join(','),'Грим,Морвен,Нокс','Legacy hero names migrate without losing records');
+// Validate the actual three-dimensional model, visibility and articulated poses.
+const meshes=[0,1,2].map(hero=>game.buildHeroMesh(hero));
+for(const mesh of meshes){
+ const points=mesh.flatMap(f=>f.points);
+ for(let axis=0;axis<3;axis++)assert(Math.max(...points.map(p=>p[axis]))-Math.min(...points.map(p=>p[axis]))>.5,'Hero has volume in all three axes');
+ for(const yaw of [-Math.PI,-Math.PI/2,0,Math.PI/2,Math.PI]){
+  const visible=game.projectHeroMesh(mesh,yaw);assert(visible.length>30&&visible.length<mesh.length,'Hidden back faces are culled');
+  for(let i=0;i<visible.length;i++){const face=visible[i];assert(Number.isFinite(face.depth));assert(Number.isInteger(face.tone)&&face.tone>=0&&face.tone<=255);assert(face.points.every(p=>p.every(Number.isFinite)));if(i)assert(visible[i-1].depth<=face.depth,'Faces render from back to front');}
+ }
+}
+assert.notEqual(JSON.stringify(meshes[0]),JSON.stringify(meshes[1]),'Warrior and druid have different models');assert.notEqual(JSON.stringify(meshes[1]),JSON.stringify(meshes[2]),'Rogue has a different silhouette');
+assert.notEqual(JSON.stringify(game.projectHeroMesh(meshes[0],0)),JSON.stringify(game.projectHeroMesh(meshes[0],Math.PI)),'The back view differs from the front');
+assert.notEqual(JSON.stringify(game.buildHeroMesh(0,{moving:true,walk:1})),JSON.stringify(game.buildHeroMesh(0,{moving:true,walk:-1})),'Walking articulates the legs');
+assert.notEqual(JSON.stringify(game.buildHeroMesh(0,{swing:.11})),JSON.stringify(meshes[0]),'The arm and weapon move during attacks');
+const animated={animTime:0,walk:0,moving:true,speed:175,swing:0,yaw:Math.PI-.01,dx:1,dy:1};game.animateHero(animated,.016);assert(Number.isFinite(animated.yaw));assert(animated.walk>0&&animated.animTime>0);assert(Math.abs(animated.yaw-(Math.PI-.01))<1,'Turning takes the shorter arc');
+
 assert.equal(game.profile.best,120);game.profile.runs=[];game.profile.best=0;
 function step(dt){if(game.state==='playing')game.update(dt);}
 function choose(){const card=get('upgradeCards').children[0];assert(card);card.onclick();}
@@ -63,4 +79,4 @@ let transitions=0;for(let i=0;i<72000&&game.state!=='over';i++){if(game.state===
 assert.equal(game.state,'over','All three timed locations terminate');assert.equal(game.g.clearedLocations,3);assert.equal(transitions,3);assert.equal(game.g.bossesKilled,15);assert(game.profile.runs[0].won,'Campaign victory saved');assert(game.profile.best>=900);assert(storage.has('dodabonk-v1'));
 const firstRunKills=game.g.kills;game.setHero(2);game.start();assert.equal(game.g.player.hp,80);assert.equal(game.g.hero,2);game.setHero(1);game.finish(false);assert.equal(game.profile.runs[0].hero,'Нокс','Changing next-run hero preserves current-run identity');assert.equal(game.profile.runs.length,2);
 game.home();assert.equal(game.state,'home');assert.equal(game.g,null);game.start();game.g.player.hp=1;game.g.player.inv=0;game.g.player.attack=10;game.g.enemies=[{x:0,y:0,hp:100,maxHp:100,kind:0,damage:10,speed:0,flash:0}];step(.01);assert.equal(game.state,'over','Death ends run');
-console.log(JSON.stringify({passed:true,checks:['ninefold map area','five regions','bounded deterministic chunks','boundary spawn safety','old boundary traversal','legacy name migration','movement','dash cooldown','pause/resume','contact damage','automatic attack','experience and upgrade selection','all upgrades','boss spawn and rewards','five-minute final boss on each map','portal locks and proximity','no automatic transition','upgrade and XP carryover','three distinct locations','fifteen-boss campaign victory','record storage','hero identity','restart','death'],simulatedRunKills:firstRunKills,simulatedDuration:Math.floor(game.profile.best)}));
+console.log(JSON.stringify({passed:true,checks:['three distinct 3D hero meshes','full-turn projection','back-face culling and depth sorting','finite lit geometry','walk and attack articulation','shortest-arc rotation','ninefold map area','five regions','bounded deterministic chunks','boundary spawn safety','old boundary traversal','legacy name migration','movement','dash cooldown','pause/resume','contact damage','automatic attack','experience and upgrade selection','all upgrades','boss spawn and rewards','five-minute final boss on each map','portal locks and proximity','no automatic transition','upgrade and XP carryover','three distinct locations','fifteen-boss campaign victory','record storage','hero identity','restart','death'],simulatedRunKills:firstRunKills,simulatedDuration:Math.floor(game.profile.best)}));
