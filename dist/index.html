@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080808"><meta name="description" content="BONKAi — чёрно-белое пиксельное дарк-фэнтези на выживание. Сокрушай орды, собирай опыт и создай безумную сборку прямо в браузере.">
-  <title>BONKAi — ещё один забег</title><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="theme.css?v=3.1">
+  <title>BONKAi — ещё один забег</title><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="theme.css?v=4">
 </head>
 <body>
 <div class="app">
@@ -15,16 +15,17 @@
    <button class="nav-item" data-panel="arsenal"><span>⚒</span> Арсенал <i>02</i></button>
    <button class="nav-item" data-panel="records"><span>▥</span> Хроника <i>03</i></button>
   </nav>
-  <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки <span>↗</span></button><div class="version"><span class="live-dot"></span> ЧЁРНО-БЕЛЫЙ МИР · V2.0</div></div>
+  <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки <span>↗</span></button><div class="version"><span class="live-dot"></span> ЧЁРНО-БЕЛЫЙ МИР · V2.1</div></div>
  </aside>
  <main>
   <header><div class="breadcrumb">ИГРЫ <span>/</span> <b>BONKAi</b></div><div class="header-right"><span class="solo"><span class="live-dot"></span> ОДИНОЧНЫЙ РЕЖИМ</span><button class="icon-button" id="sound" title="Включить звук" aria-label="Включить звук">♫</button><button class="icon-button" id="help" title="Как играть" aria-label="Как играть">?</button></div></header>
-  <section class="page-heading"><div><div class="eyebrow"><span></span> DARK FANTASY / PIXEL SURVIVAL</div><h1>Тьма не ждёт. <br class="mobile-break"> <em>Бонкай.</em></h1><p>Из пепла — в легенды. Пиксельное дарк-фэнтези на выживание.</p></div><span class="chapter">ГЛАВА 01 <b>ПЕПЕЛЬНЫЙ ЛЕС</b><span>↘</span></span></section>
+  <section class="page-heading"><div><div class="eyebrow"><span></span> DARK FANTASY / PIXEL SURVIVAL</div><h1>Тьма не ждёт. <br class="mobile-break"> <em>Бонкай.</em></h1><p>Пять областей. Девять раз больше мира. Исследуй и выживай.</p></div><span class="chapter">5 ОБЛАСТЕЙ <b>РАСКОЛОТЫЕ ЗЕМЛИ</b><span>↘</span></span></section>
   <div class="game-layout">
    <section class="arena-shell" aria-label="Игровая арена">
-    <div class="arena-top"><div><span class="live-dot"></span><b>ПЕПЕЛЬНЫЙ ЛЕС</b><span class="difficulty">НОРМАЛЬНО</span></div><div class="arena-actions"><button id="pause" class="icon-button" title="Пауза" aria-label="Пауза">Ⅱ</button><button id="fullscreen" class="icon-button" title="Полный экран" aria-label="Полный экран">⛶</button></div></div>
+    <div class="arena-top"><div><span class="live-dot"></span><b id="areaName">ПЕПЕЛЬНЫЙ ЛЕС</b><span class="difficulty">НОРМАЛЬНО</span></div><div class="arena-actions"><button id="pause" class="icon-button" title="Пауза" aria-label="Пауза">Ⅱ</button><button id="fullscreen" class="icon-button" title="Полный экран" aria-label="Полный экран">⛶</button></div></div>
     <div class="game-viewport" id="viewport"><canvas id="game" aria-label="Игра BONKAi. Двигайтесь клавишами WASD или стрелками, пробел — рывок." tabindex="0"></canvas>
      <div class="game-hud" id="hud"><div class="health-panel"><span class="avatar">◈</span><div><div class="health-label"><b id="heroLabel">ГРИМ</b><span id="hpText">100 / 100</span></div><div class="bar hp"><span id="hpFill"></span></div></div></div><div class="timer" id="timer">00:00</div><div class="kill-counter">☠ <b id="kills">0</b></div></div>
+     <div class="mini-map" aria-label="Карта мира"><div class="mini-map-label">КАРТА <span id="exploredCount">1/5</span></div><canvas id="miniMap" width="112" height="112" aria-label="Мини-карта: белая точка — герой, квадраты — центры областей"></canvas><div class="mini-map-legend">◆ ТЫ · □ ОБЛАСТЬ</div></div>
      <div class="boss-hud hidden" id="bossHud"><span>ХРАНИТЕЛЬ ЛЕСА</span><div class="bar"><span id="bossFill"></span></div></div>
      <div class="zone-label" id="zoneLabel"><span>⟡</span> ВЫЖИВИ. ПРОКАЧАЙСЯ. ПОВТОРИ.</div>
      <div class="screen-overlay" id="startScreen"><div class="start-content"><div class="tag">ПО ТУ СТОРОНУ РАССВЕТА</div><h2>BONK<span>Ai</span><i>✦</i></h2><p>За туманом нет рассвета.<br>Только ты и то, что осталось.</p><button class="primary-button" id="start">НАЧАТЬ ЗАБЕГ <span>↗</span></button><div class="start-note">ВОЙДИ В ТУМАН. ПЕРЕЖИВИ ПЯТЬ МИНУТ.</div></div></div>
@@ -46,5 +47,5 @@
  </main>
 </div>
 <dialog id="infoDialog"><div class="modal-head"><span class="eyebrow" id="modalEyebrow">BONKAi</span><button id="closeDialog" class="icon-button" aria-label="Закрыть">×</button></div><div id="modalContent"></div></dialog>
-<script src="game.js?v=3.2"></script>
+<script src="game.js?v=4"></script>
 </body></html>
