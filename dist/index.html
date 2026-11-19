@@ -3,10 +3,45 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080808"><meta name="description" content="BONKAi — чёрно-белое пиксельное дарк-фэнтези на выживание. Сокрушай орды, собирай опыт и создай безумную сборку прямо в браузере.">
-  <title>BONKAi — ещё один забег</title><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="theme.css?v=8">
+  <title>BONKAi — ещё один забег</title><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="theme.css?v=9"><link rel="stylesheet" href="menu.css?v=1">
 </head>
 <body>
-<div class="app">
+<main class="main-menu" id="mainMenu" aria-label="Главное меню BONKAi">
+ <div class="menu-shell">
+  <div class="menu-topline"><span class="menu-wordmark">BONKAi<span>✦</span></span><span>ЧЁРНО-БЕЛОЕ ДАРК-ФЭНТЕЗИ</span></div>
+  <div class="menu-layout">
+   <section class="menu-panel" aria-labelledby="menuTitle">
+    <p class="menu-eyebrow">ПО ТУ СТОРОНУ РАССВЕТА</p>
+    <h1 id="menuTitle">BONK<span>Ai</span></h1>
+    <p class="menu-lead">За туманом нет рассвета.<br>Только сталь и ещё один забег.</p>
+    <div class="menu-start-actions">
+     <button class="menu-play menu-continue" id="menuResume" hidden><span aria-hidden="true">Ⅱ</span><span><strong>Продолжить забег</strong><small id="menuRunInfo"></small></span></button>
+     <button class="menu-play" id="menuNewGame"><span aria-hidden="true">⚔</span><span><strong>Новая игра</strong><small>Три локации. Один путь через тьму.</small></span></button>
+    </div>
+    <nav class="menu-navigation" aria-label="Разделы главного меню">
+     <button id="menuHeroes"><span aria-hidden="true">◈</span>Выбор героя</button>
+     <button id="menuHelp"><span aria-hidden="true">⌘</span>Как играть</button>
+     <button id="menuRecords"><span aria-hidden="true">▥</span>Рекорды</button>
+     <button id="menuSettings"><span aria-hidden="true">⚙</span>Настройки</button>
+     <button id="menuDownload"><span aria-hidden="true">▣</span><span id="menuDownloadLabel">Скачать для ПК</span></button>
+     <button id="menuAbout"><span aria-hidden="true">✳</span>Об игре</button>
+    </nav>
+    <div class="menu-utilities"><button id="menuSound" aria-pressed="false">Звук выключен</button><button id="menuFullscreen">Полный экран</button></div>
+    <button class="menu-end-run" id="menuEndRun" hidden>Завершить текущий забег</button>
+   </section>
+   <section class="menu-preview" aria-label="Выбранный герой">
+    <div class="menu-preview-caption"><span>ТВОЙ ГЕРОЙ</span><span id="menuHeroRole">ВОИН</span></div>
+    <div class="menu-scene"><canvas id="menuScene" width="640" height="680" role="img" aria-label="3D-герой Грим с Пепельным клинком"></canvas><span class="menu-scene-caption">ПЕПЕЛЬНЫЙ КЛИНОК</span></div>
+    <div class="menu-hero-info"><div><h2 id="menuHeroName">Грим</h2><p id="menuHeroDesc">Сталь, пепел и пепельный клинок.</p></div><span id="menuHeroTrait">+20% УРОН</span></div>
+    <div class="menu-hero-picker" role="group" aria-label="Выбрать героя для новой игры"><button id="menuHero0" aria-pressed="true">Грим</button><button id="menuHero1" aria-pressed="false">Морвен</button><button id="menuHero2" aria-pressed="false">Нокс</button></div>
+    <p class="menu-hero-note" id="menuHeroNote">Герой для нового забега</p>
+   </section>
+  </div>
+  <div class="menu-bottomline"><span>Одиночная RPG · без регистрации</span><button id="menuBestButton" aria-label="Открыть рекорды">Лучший забег <b id="menuBest">00:00</b></button><span id="menuEdition">BONKAi · V3.4</span></div>
+ </div>
+</main>
+
+<div class="app" id="gameApp" hidden>
  <aside class="sidebar">
   <a class="brand" href="./" aria-label="BONKAi — главная"><span class="brand-mark">b<span>✦</span></span><span>BONK<br>Ai<span class="brand-dot">.</span></span></a>
   <div class="side-caption">ПЕПЕЛ. СТАЛЬ. ЕЩЁ ОДИН ЗАБЕГ.</div>
@@ -15,7 +50,7 @@
    <button class="nav-item" data-panel="arsenal"><span>⚒</span> Арсенал <i>02</i></button>
    <button class="nav-item" data-panel="records"><span>▥</span> Хроника <i>03</i></button>
   </nav>
-  <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки <span>↗</span></button><div class="version"><span class="live-dot"></span> ЧЁРНО-БЕЛЫЙ МИР · V3.3</div></div>
+  <div class="side-bottom"><div class="small-label">ЛУЧШИЙ ЗАБЕГ</div><div class="best-time" id="bestTime">00:00 <span>↗</span></div><p>Каждый конец — новое начало.</p><button class="settings-button" id="settings"><span>⚙</span> Настройки </button><div class="version"><span class="live-dot"></span> ЧЁРНО-БЕЛЫЙ МИР · V3.4</div></div>
  </aside>
  <main>
   <header><div class="breadcrumb">ИГРЫ <span>/</span> <b>BONKAi</b></div><div class="header-right"><span class="solo"><span class="live-dot"></span> ОДИНОЧНЫЙ РЕЖИМ</span><button class="icon-button" id="sound" title="Включить звук" aria-label="Включить звук">♫</button><button class="icon-button" id="help" title="Как играть" aria-label="Как играть">?</button></div></header>
@@ -27,7 +62,7 @@
   </ol>
   <div class="game-layout">
    <section class="arena-shell" aria-label="Игровая арена">
-    <div class="arena-top"><div><span class="live-dot"></span><b id="areaName">ПЕПЕЛЬНЫЙ ЛЕС</b><span class="difficulty">НОРМАЛЬНО</span></div><div class="arena-actions"><button id="pause" class="icon-button" title="Пауза" aria-label="Пауза">Ⅱ</button><button id="fullscreen" class="icon-button" title="Полный экран" aria-label="Полный экран">⛶</button></div></div>
+    <div class="arena-top"><div><span class="live-dot"></span><b id="areaName">ПЕПЕЛЬНЫЙ ЛЕС</b><span class="difficulty">НОРМАЛЬНО</span></div><div class="arena-actions"><button id="openMainMenu" class="game-menu-button">Меню</button><button id="pause" class="icon-button" title="Пауза" aria-label="Пауза">Ⅱ</button><button id="fullscreen" class="icon-button" title="Полный экран" aria-label="Полный экран">⛶</button></div></div>
     <div class="game-viewport" id="viewport"><canvas id="game" aria-label="Игра BONKAi. Двигайтесь клавишами WASD или стрелками, пробел — рывок, E — войти в открытый портал." tabindex="0"></canvas>
      <div class="game-hud" id="hud"><div class="health-panel"><span class="avatar">◈</span><div><div class="health-label"><b id="heroLabel">ГРИМ</b><span id="hpText">100 / 100</span></div><div class="bar hp"><span id="hpFill"></span></div></div></div><div class="timer" id="timer">00:00</div><div class="kill-counter">☠ <b id="kills">0</b></div></div>
      <div class="mini-map" aria-label="Карта мира"><div class="mini-map-label">КАРТА <span id="exploredCount">1/5</span></div><canvas id="miniMap" width="112" height="112" aria-label="Мини-карта: белая точка — герой, квадраты — центры областей, белая рамка — открытый портал"></canvas><div class="mini-map-legend">◆ ТЫ · □ ОБЛАСТЬ<br>▣ ПОРТАЛ</div></div>
@@ -36,10 +71,10 @@
      <div class="portal-panel hidden" id="portalPanel" role="status"><small id="portalDestination"></small><button id="enterPortal" class="primary-button" disabled>E · ВОЙТИ В ПОРТАЛ →</button><span id="portalHelp">Уровень и сборка сохранятся · здоровье восстановится</span></div>
      <div class="boss-hud hidden" id="bossHud"><span id="bossName">ХРАНИТЕЛЬ ЛЕСА</span><div class="bar"><span id="bossFill"></span></div></div>
      <div class="zone-label" id="zoneLabel"><span>⟡</span> ВЫЖИВИ. ПРОКАЧАЙСЯ. ПОВТОРИ.</div>
-     <div class="screen-overlay" id="startScreen"><div class="start-content"><div class="tag">ПО ТУ СТОРОНУ РАССВЕТА</div><h2>BONK<span>Ai</span><i>✦</i></h2><p>За туманом нет рассвета.<br>Три локации по ту сторону тьмы.</p><button class="primary-button" id="start">НАЧАТЬ ЗАБЕГ <span>↗</span></button><div class="start-note">ПОБЕДИ БОССА. ОТКРОЙ ПОРТАЛ. ИДИ ДАЛЬШЕ.</div></div></div>
-     <div class="screen-overlay hidden" id="pauseScreen"><div class="dialog compact"><div class="eyebrow">ПЕРЕДЫШКА</div><h2>Тьма подождёт.</h2><p>Твой забег на паузе.</p><button class="primary-button" id="resume">ПРОДОЛЖИТЬ <span>→</span></button><button class="text-button" id="quit">Завершить забег</button></div></div>
+     <div class="screen-overlay" id="startScreen"><div class="start-content"><div class="tag">ПО ТУ СТОРОНУ РАССВЕТА</div><h2>BONK<span>Ai</span><i>✦</i></h2><p>За туманом нет рассвета.<br>Три локации по ту сторону тьмы.</p><button class="primary-button" id="start">НАЧАТЬ ЗАБЕГ </button><div class="start-note">ПОБЕДИ БОССА. ОТКРОЙ ПОРТАЛ. ИДИ ДАЛЬШЕ.</div></div></div>
+     <div class="screen-overlay hidden" id="pauseScreen"><div class="dialog compact"><div class="eyebrow">ПЕРЕДЫШКА</div><h2>Тьма подождёт.</h2><p>Твой забег на паузе.</p><button class="primary-button" id="resume">ПРОДОЛЖИТЬ </button><button class="text-button" id="pauseMainMenu">Главное меню</button><button class="text-button" id="quit">Завершить забег</button></div></div>
      <div class="screen-overlay hidden" id="upgradeScreen"><div class="upgrade-dialog"><div class="eyebrow">СТАНОВИШЬСЯ ОПАСНЕЕ</div><h2>Новый уровень<span id="newLevel">02</span></h2><p>Выбери улучшение. Пусть монстры пожалеют.</p><div id="upgradeCards"></div></div></div>
-     <div class="screen-overlay hidden" id="endScreen"><div class="dialog compact"><div class="eyebrow" id="endTag">ЭТО БЫЛО СЛАВНО</div><h2 id="endTitle">Ещё один бонк?</h2><p id="endDescription">Лес победил. Пока что.</p><div class="result-grid"><div><b id="endTime">00:00</b><span>ВЫЖИВАНИЕ</span></div><div><b id="endKills">0</b><span>ПОБЕЖДЕНО</span></div><div><b id="endLevel">1</b><span>УРОВЕНЬ</span></div></div><button class="primary-button" id="restart">ЕЩЁ ОДИН ЗАБЕГ <span>↗</span></button><button class="text-button" id="backHome">На главную</button></div></div>
+     <div class="screen-overlay hidden" id="endScreen"><div class="dialog compact"><div class="eyebrow" id="endTag">ЭТО БЫЛО СЛАВНО</div><h2 id="endTitle">Ещё один бонк?</h2><p id="endDescription">Лес победил. Пока что.</p><div class="result-grid"><div><b id="endTime">00:00</b><span>ВЫЖИВАНИЕ</span></div><div><b id="endKills">0</b><span>ПОБЕЖДЕНО</span></div><div><b id="endLevel">1</b><span>УРОВЕНЬ</span></div></div><button class="primary-button" id="restart">ЕЩЁ ОДИН ЗАБЕГ </button><button class="text-button" id="backHome">На главную</button></div></div>
      <div class="touch-controls" id="touchControls"><div id="joystick"><span></span></div><button id="touchDash" aria-label="Рывок">↯</button></div>
      <div class="dash-indicator" id="dashIndicator"><span>↯</span> РЫВОК <kbd>SPACE</kbd></div>
     </div>
@@ -55,5 +90,5 @@
  </main>
 </div>
 <dialog id="infoDialog"><div class="modal-head"><span class="eyebrow" id="modalEyebrow">BONKAi</span><button id="closeDialog" class="icon-button" aria-label="Закрыть">×</button></div><div id="modalContent"></div></dialog>
-<script src="game.js?v=8"></script>
+<script src="game.js?v=9"></script>
 </body></html>
